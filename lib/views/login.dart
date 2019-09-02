@@ -1,13 +1,40 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fruit_store/models/LoginRequestModel.dart';
+import 'package:fruit_store/models/User.dart';
+import 'package:fruit_store/views/photo_list.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:flutter/services.dart';
 import 'package:fruit_store/_routing/router.dart';
 import 'package:fruit_store/_routing/routes.dart';
 import 'package:fruit_store/utils/colors.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
+}
+
+Future<List<User>> login(http.Client client) async {
+  LoginRequestModel loginRequestModel=new LoginRequestModel("9000000001","123456");
+
+  final response =
+  await client.post('http://login.com/login',body: loginRequestModel.toJson());
+
+  // Use the compute function to run parsePhotos in a separate isolate.
+  return compute(parsePhotos, response.body);
+}
+
+// A function that converts a response body into a List<Photo>.
+List<User> parsePhotos(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  List<User> list=parsed.map<User>((json){
+    User.fromJson(json);
+  }
+
+  ).toList();
+  return list;
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -22,31 +49,37 @@ class _LoginPageState extends State<LoginPage> {
     final pageTitle = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "Log In.",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 45.0,
-          ),
-        ),
-        Text(
-          "We missed you!",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w500,
+        Center(
+          child:    Text(
+            "Flutter Login",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontSize: 40.0,
+
+            ),
           ),
         )
+        ,
+     Center(
+       child:    Text(
+         "We missed you!",
+         style: TextStyle(
+           color: Colors.white,
+           fontSize: 18.0,
+           fontWeight: FontWeight.w500,
+         ),
+       ),
+     )
       ],
     );
 
     final emailField = TextFormField(
       decoration: InputDecoration(
-        labelText: 'Email Address',
+        labelText: 'Phone Number',
         labelStyle: TextStyle(color: Colors.white),
         prefixIcon: Icon(
-          LineIcons.envelope,
+          LineIcons.mobile_phone,
           color: Colors.white,
         ),
         enabledBorder: UnderlineInputBorder(
@@ -56,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
           borderSide: BorderSide(color: Colors.white),
         ),
       ),
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.phone,
       style: TextStyle(color: Colors.white),
       cursorColor: Colors.white,
     );
@@ -103,7 +136,9 @@ class _LoginPageState extends State<LoginPage> {
       ),
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => Navigator.pushNamed(context, homeViewRoute),
+        onPressed: () =>
+          login(http.Client())
+        ,
         color: Colors.white,
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(7.0),
@@ -185,3 +220,5 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+

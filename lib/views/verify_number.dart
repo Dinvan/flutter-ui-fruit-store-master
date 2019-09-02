@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:fruit_store/_routing/routes.dart';
 import 'package:fruit_store/utils/colors.dart';
-class ResetPasswordPage extends StatefulWidget {
+class VerifyNumberPage extends StatefulWidget {
   @override
-  _ResetPasswordPageState createState() => _ResetPasswordPageState();
+  _VerifyNumberPageState createState() => _VerifyNumberPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _VerifyNumberPageState extends State<VerifyNumberPage> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -30,7 +30,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     final pageTitle = Container(
       child: Text(
-        "Reset Password",
+        "We have sent a Verification Code to your registered mobile number",
+        textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.white,
@@ -41,10 +42,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     final emailField = TextFormField(
       decoration: InputDecoration(
-        labelText: 'Phone Number',
+        labelText: 'Enter OTP',
         labelStyle: TextStyle(color: Colors.white),
         prefixIcon: Icon(
-          LineIcons.mobile_phone,
+          LineIcons.user_secret,
           color: Colors.white,
         ),
         enabledBorder: UnderlineInputBorder(
@@ -59,7 +60,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       cursorColor: Colors.white,
     );
 
-    final resetPasswordForm = Padding(
+    final verifyNumberForm = Padding(
       padding: EdgeInsets.only(top: 30.0),
       child: Form(
         key: _formKey,
@@ -69,7 +70,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       ),
     );
 
-    final resetPasswordBtn = Container(
+    final verifyNumberBtn = Container(
       margin: EdgeInsets.only(top: 40.0),
       height: 60.0,
       width: MediaQuery.of(context).size.width,
@@ -80,13 +81,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       ),
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => Navigator.pushNamed(context, loginViewRoute),
+        onPressed: () => Navigator.pushNamed(context, homeViewRoute),
         color: Colors.white,
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(7.0),
         ),
         child: Text(
-          'RESET',
+          'Verify',
           style: TextStyle(
             fontWeight: FontWeight.w800,
             fontSize: 20.0,
@@ -95,33 +96,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       ),
     );
 
-    final newUser = Padding(
-      padding: EdgeInsets.only(top: 50.0),
-      child: InkWell(
-        onTap: () => Navigator.pushNamed(context, registerViewRoute),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Or',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              ' Create new account',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
 
     return Scaffold(
       body: Container(
@@ -138,9 +112,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   pageTitle,
-                  resetPasswordForm,
-                  resetPasswordBtn,
-                  newUser
+                  verifyNumberForm,
+                  verifyNumberBtn,
                 ],
               ),
             )

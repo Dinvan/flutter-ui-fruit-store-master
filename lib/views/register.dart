@@ -37,13 +37,13 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    final pageTitle = Container(
+    final pageTitle = Center(
       child: Text(
         "Tell us about you.",
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.black,
-          fontSize: 40.0,
+          fontSize: 20.0,
         ),
       ),
     );
@@ -58,13 +58,13 @@ class _RegisterPageState extends State<RegisterPage> {
         key: _formKey,
         child: Column(
           children: <Widget>[
-            _buildFormField('Name', LineIcons.user),
+            _buildFormField('Name', LineIcons.user,TextInputType.text),
             formFieldSpacing,
-            _buildFormField('Email Address', LineIcons.envelope),
+            _buildFormField('Phone Number', LineIcons.mobile_phone,TextInputType.phone),
             formFieldSpacing,
-            _buildFormField('Phone Number', LineIcons.mobile_phone),
+            _buildFormField('Password', LineIcons.lock,TextInputType.text),
             formFieldSpacing,
-            _buildFormField('Password', LineIcons.lock),
+            _buildFormField('Confirm Password', LineIcons.lock,TextInputType.text),
             formFieldSpacing,
           ],
         ),
@@ -113,7 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
           elevation: 10.0,
           shadowColor: Colors.white70,
           child: MaterialButton(
-            onPressed: () => Navigator.of(context).pushNamed(homeViewRoute),
+            onPressed: () => Navigator.of(context).pushNamed(verifyNumber),
             child: Text(
               'CREATE ACCOUNT',
               style: TextStyle(
@@ -141,7 +141,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: <Widget>[
                     pageTitle,
                     registerForm,
-                    gender,
                     submitBtn
                   ],
                 ),
@@ -153,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _buildFormField(String label, IconData icon) {
+  Widget _buildFormField(String label, IconData icon,TextInputType inputType) {
     return TextFormField(
       decoration: InputDecoration(
         labelText: label,
@@ -169,7 +168,7 @@ class _RegisterPageState extends State<RegisterPage> {
           borderSide: BorderSide(color: Colors.orange),
         ),
       ),
-      keyboardType: TextInputType.text,
+      keyboardType: inputType,
       style: TextStyle(color: Colors.black),
       cursorColor: Colors.black,
     );
